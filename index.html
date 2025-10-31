@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simple Header</title>
+  <script>
+    // Apply stored theme (or prefers-color-scheme) as early as possible
+    (function(){
+      try {
+        var t = localStorage.getItem('wafercafe_theme');
+        if (t === 'light') { document.documentElement.classList.add('light'); return; }
+        if (t === 'dark') { return; }
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+          document.documentElement.classList.add('light');
+        }
+      } catch (e) { /* ignore */ }
+    })();
+  </script>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+</head>
+<body>
+  <header>
+    <img src="icon.jpeg" alt="Logo" class="logo" />
+    <div class="icon-links">
+      <a href="https://discord.com" target="_blank" title="Discord">
+        <i class="bi bi-discord"></i>
+      </a>
+      <a href="https://github.com" target="_blank" title="GitHub">
+        <i class="bi bi-github"></i>
+      </a>
+    </div>
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme" title="Toggle theme">
+      <i class="bi bi-moon"></i>
+    </button>
+  </header>
+
+  <main>
+    <section class="games-section">
+      <h2 class="games-title">Flash Games</h2>
+      <div class="title-underline" aria-hidden="true"></div>
+
+      <div class="games-scroll" role="region" aria-label="Flash games carousel">
+        <a class="game-btn" href="#" role="button" aria-label="Play Pong" data-swf="swfs/pong.swf">Pong</a>
+        <a class="game-btn" href="#" role="button" aria-label="Play Asteroids" data-swf="swfs/asteroids.swf">Asteroids</a>
+        <a class="game-btn" href="#" role="button" aria-label="Play Tetris" data-swf="swfs/tetris.swf">Tetris</a>
+        <a class="game-btn" href="#" role="button" aria-label="Play Pac-Man" data-swf="swfs/pacman.swf">Pac-Man</a>
+        <a class="game-btn" href="#" role="button" aria-label="Play Snake" data-swf="swfs/snake.swf">Snake</a>
+        <a class="game-btn" href="#" role="button" aria-label="Play Breakout" data-swf="swfs/breakout.swf">Breakout</a>
+  <a class="game-btn" href="#" role="button" aria-label="Play Duck Life" data-swf="flash/duck-life.swf">Duck Life</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Ruffle CDN; loads the web player and wasm loader -->
+  <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+
+  <!-- Ruffle player modal -->
+  <div id="swf-modal" class="swf-modal" aria-hidden="true">
+    <div class="swf-modal-backdrop" data-close></div>
+    <div class="swf-modal-panel" role="dialog" aria-modal="true" aria-label="Game player">
+      <button class="swf-close" aria-label="Close player" data-close>&times;</button>
+      <div id="player-container" class="player-container"></div>
+    </div>
+  </div>
+
+  <!-- Fullscreen toggle (bottom-right) -->
+  <button id="fullscreen-toggle" class="fullscreen-toggle" aria-label="Toggle fullscreen" title="Toggle fullscreen">
+    <i class="bi bi-fullscreen"></i>
+  </button>
+
+  <script src="scripts.js"></script>
+</body>
+</html>

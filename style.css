@@ -1,0 +1,313 @@
+:root {
+  --body-bg: #121212;
+  --font-family: Arial, sans-serif;
+  --header-bg: rgba(20, 20, 20, 0.9);
+  --header-shadow: 0 8px 32px 0 rgba(0,0,0,0.15);
+  --header-radius: 1.5rem;
+  --logo-max-height: 60px;
+  --logo-radius: 16px;
+  --logo-margin-left: -12px;
+}
+
+/* Light theme variables */
+html.light {
+  --body-bg: #f7f7f8;
+  --header-bg: rgba(255,255,255,0.9);
+  --header-shadow: 0 8px 32px rgba(0,0,0,0.06);
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  background-color: var(--body-bg);
+  padding-top: 100px;
+}
+
+* {
+  transition: background-color 220ms ease, color 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+}
+
+header {
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-width: 320px;
+  max-width: 600px;
+  width: 80vw;
+  padding: 16px 32px;
+  background: var(--header-bg);
+  color: white;
+  border-radius: var(--header-radius);
+  box-shadow: var(--header-shadow);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: box-shadow 0.3s, background 0.3s;
+}
+
+/* Initial pop-up state: start slightly above and invisible */
+@keyframes pop-up {
+  0% {
+    transform: translateX(-50%) translateY(-18px) scale(0.995);
+    opacity: 0;
+    filter: blur(2px);
+  }
+  60% {
+    transform: translateX(-50%) translateY(2px) scale(1.02);
+    opacity: 1;
+    filter: blur(0);
+  }
+  100% {
+    transform: translateX(-50%) translateY(0) scale(1);
+    opacity: 1;
+    filter: none;
+  }
+}
+
+header.pop-up {
+  animation: pop-up 520ms cubic-bezier(.22,1,.36,1) both;
+  transform-origin: center top;
+  transition: box-shadow 160ms ease-out;
+}
+
+/* Child elements (logo + icons) appear with a quick lift-and-fade, staggered by JS */
+@keyframes child-in {
+  from { transform: translateY(-8px) scale(.98); opacity: 0; }
+  to   { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.child-appear {
+  opacity: 0;
+  display: inline-block;
+  transform-origin: center;
+  animation: child-in 420ms cubic-bezier(.22,1,.36,1) forwards;
+}
+
+/* Icons specifically slide up then pop (stronger vertical motion) */ 
+@keyframes icon-pop {
+  0% { transform: translateY(10px) scale(.95); opacity: 0; }
+  60% { transform: translateY(-6px) scale(1.08); opacity: 1; }
+  85% { transform: translateY(2px) scale(.98); }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+.icon-pop {
+  opacity: 0;
+  display: inline-block;
+  transform-origin: center bottom;
+  animation: icon-pop 420ms cubic-bezier(.22,1,.36,1) forwards;
+}
+
+/* No persistent disable — animation will run on every load */
+
+header h1 {
+  margin: 0;
+}
+
+.icon-links a {
+  color: white;
+  font-size: 1.5rem;
+  margin-left: 15px;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.icon-links a:hover {
+  color: #7289da; /* Discord blue as hover */
+}
+
+/* Theme toggle button */
+.theme-toggle {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.06);
+  color: white;
+  padding: 8px 10px;
+  margin-left: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1rem;
+  display: inline-flex;
+  align-items: center;
+}
+.theme-toggle:focus { outline: 2px solid rgba(114,137,218,0.25); }
+
+/* Light theme toggle styles */
+:root.light .theme-toggle,
+html.light .theme-toggle,
+.light .theme-toggle {
+  color: #222;
+  border-color: rgba(0,0,0,0.08);
+}
+
+/* Light theme: make header icons dark for readability */
+html.light .icon-links a {
+  color: #111;
+}
+html.light .icon-links a:hover {
+  color: #2563eb; /* slightly brighter blue on hover in light mode */
+}
+
+/* Ensure toggle icon can animate */
+.theme-toggle > i {
+  display: inline-block;
+  transform-origin: center center;
+}
+
+/* Toggle icon pop/rotate animation */
+@keyframes toggle-pop-rotate {
+  0% { transform: rotate(-20deg) scale(.85); opacity: 0.9; }
+  55% { transform: rotate(20deg) scale(1.12); opacity: 1; }
+  85% { transform: rotate(-6deg) scale(.98); }
+  100% { transform: rotate(0) scale(1); opacity: 1; }
+}
+.theme-toggle.animate > i {
+  animation: toggle-pop-rotate 420ms cubic-bezier(.22,1,.36,1) both;
+}
+
+/* Updated logo image styling */
+.logo {
+  max-height: var(--logo-max-height);
+  border-radius: var(--logo-radius);
+  margin-left: var(--logo-margin-left);
+}
+
+/* Flash Games section */
+.games-section {
+  margin: 32px auto;
+  max-width: 900px;
+  padding: 8px 20px;
+  color: inherit;
+}
+
+.games-title {
+  font-size: 1.25rem;
+  margin: 0 0 6px 6px;
+  position: relative;
+}
+
+.title-underline {
+  height: 3px;
+  width: 56px;
+  background: linear-gradient(90deg, #ffb703, #fb8500);
+  border-radius: 2px;
+  margin: 0 0 12px 6px;
+}
+
+.games-scroll {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 12px;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
+}
+
+.game-btn {
+  flex: 0 0 auto;
+  background: rgba(255,255,255,0.06);
+  color: inherit;
+  padding: 12px 18px;
+  border-radius: 12px;
+  text-decoration: none;
+  border: 1px solid rgba(255,255,255,0.06);
+  transition: transform 160ms ease, background 160ms ease, box-shadow 160ms ease;
+}
+.game-btn:hover, .game-btn:focus {
+  transform: translateY(-6px);
+  background: rgba(255,255,255,0.12);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* Make sure games section looks good in light mode */
+html.light .game-btn {
+  background: rgba(0,0,0,0.04);
+  border-color: rgba(0,0,0,0.06);
+}
+
+/* Ruffle modal styles */
+.swf-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  /* anchor at the bottom so the panel opens upwards */
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 28px;
+  z-index: 2000;
+}
+.swf-modal[aria-hidden="false"] { display: flex; }
+.swf-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+}
+.swf-modal-panel {
+  position: relative;
+  background: var(--header-bg);
+  border-radius: 12px;
+  padding: 12px;
+  max-width: calc(100vw - 48px);
+  max-height: calc(100vh - 48px);
+  width: 900px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  z-index: 2010;
+  transform-origin: center bottom;
+  /* animate upward when opened */
+  opacity: 0;
+  transform: translateY(14px) scale(.995);
+  transition: transform 260ms cubic-bezier(.22,1,.36,1), opacity 200ms ease;
+}
+
+.swf-modal[aria-hidden="false"] .swf-modal-panel {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+.player-container {
+  width: 100%;
+  height: 560px;
+  background: #000;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.swf-close {
+  position: absolute;
+  right: 8px;
+  top: 6px;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+@media (max-width: 640px) {
+  .player-container { height: 320px; }
+  .swf-modal-panel { width: calc(100vw - 24px); }
+}
+
+/* Fullscreen toggle button */
+.fullscreen-toggle {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: var(--header-bg);
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2100;
+  cursor: pointer;
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+.fullscreen-toggle:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.25); }
+.fullscreen-toggle:focus { outline: 2px solid rgba(114,137,218,0.25); }
+
+html.light .fullscreen-toggle { color: #111; border-color: rgba(0,0,0,0.06); }
